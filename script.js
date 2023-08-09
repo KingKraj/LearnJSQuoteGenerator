@@ -1,14 +1,28 @@
 let quotes = [];
-let quoteGenerator = document.getElementById("quote-generator");
-let quoteText = document.getElementById("quote");
-let authorText = document.getElementById("author");
+const quoteGenerator = document.getElementById("quote-generator");
+const quoteText = document.getElementById("quote");
+const authorText = document.getElementById("author");
+const loader = document.getElementById("loader");
+
+function loading() {
+  loader.hidden = false;
+  quoteGenerator.hidden = true;
+}
+
+// Remove Loading Spinner
+function complete() {
+  quoteGenerator.hidden = false;
+  loader.hidden = true;
+}
 function newQuote() {
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
   console.log(quote);
   quoteText.textContent = quote.text;
   authorText.textContent = quote.author.replace(", type.fit", "");
+  complete();
 }
 async function getQuotes() {
+  loading();
   const quotesUrl = "https://type.fit/api/quotes";
   try {
     const response = await fetch(quotesUrl);
